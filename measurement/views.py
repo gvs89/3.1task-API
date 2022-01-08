@@ -35,11 +35,12 @@ class RetrieveUpdateAPIView(RetrieveAPIView):
     serializer_class = SensorDetailSerializer
 
     def patch(self, request, pk):
-        sensor = Sensor.objects.filter(pk=pk)
-        review = SensorDetailSerializer(sensor, data=request.data)
+        """Изменить датчик. Указываются название и/или описание."""
+        sensor = Sensor.objects.get(pk=pk)
+        review = SensorListSerializer(sensor, data=request.data)
         if review.is_valid():
             review.save()
-        print(review)
+
         return Response({'status': 'OK'})
 
 
